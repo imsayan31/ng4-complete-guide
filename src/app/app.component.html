@@ -1,0 +1,19 @@
+
+<app-header
+(featuredString)="onNavigation($event)"></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <app-recipes *ngIf="featuredVal == 'recipe'"></app-recipes>
+      <app-shopping-list *ngIf="featuredVal != 'recipe'"></app-shopping-list>
+      <!-- <app-cockpit
+      (serverCreated)="onServerAdd($event)"
+      (blueprintCreated)="onBlueprintAdd($event)"
+      ></app-cockpit>
+      <hr>
+      <app-server-element *ngFor="let serverElement of serverElements"
+      [element]="serverElement"></app-server-element> -->
+    </div>
+  </div>
+</div>
+

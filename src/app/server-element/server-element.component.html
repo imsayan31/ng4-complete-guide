@@ -1,0 +1,11 @@
+<section>
+  <div>
+    <h2>{{ element.name }}</h2>
+    <p *ngIf="element.type == 'server'">
+    <strong style="color: red;">{{ element.content }}</strong>
+  </p>
+    <p *ngIf="element.type == 'blueprint'">
+      <em style="color: blue;">{{ element.content }}</em>
+    </p>
+  </div>
+</section>
