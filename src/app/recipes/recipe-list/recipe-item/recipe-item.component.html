@@ -7,7 +7,7 @@
     <img src="{{ item.imagePath }}" alt="{{ item.name }}" class="img-responsive" style="max-height: 50px;">
   </span>
 </a> -->
-<a href="javascript:void(0);" class="list-group-item clearfix" (click)="onRecipeDetails()">
+<a style="cursor: pointer;" class="list-group-item clearfix" (click)="onRecipeDetails()">
   <div class="pull-left">
     <h4 class="list-group-item-heading">{{ recipeItem.name }}</h4>
     <p class="list-group-item-text">{{ recipeItem.desc }}</p>
