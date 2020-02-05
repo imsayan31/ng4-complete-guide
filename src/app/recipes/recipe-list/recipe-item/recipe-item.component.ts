@@ -8,6 +8,7 @@ import { RecipeService } from '../../recipe.service';
 })
 export class RecipeItemComponent implements OnInit {
   @Input() recipeItem: {name: string, desc: string, imagePath: string};
+  @Input() index: number;
 
 
   constructor(private recipeService: RecipeService) { }
