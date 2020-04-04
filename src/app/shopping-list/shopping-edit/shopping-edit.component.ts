@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -7,18 +8,17 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '
 })
 export class ShoppingEditComponent implements OnInit {
   @Output() addIngredients = new EventEmitter<{name: string, amount: number}>();
-  @ViewChild('nameInput', {static: true}) nameInputRef: ElementRef
-  @ViewChild('quantityInput', {static: true}) quantityInputRef: ElementRef
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onAddIngredients(nameInput: HTMLInputElement, quantityInput: HTMLInputElement) {
+  onAddIngredients(form: NgForm) {
+    const value = form.value;
     this.addIngredients.emit({
-      name: this.nameInputRef.nativeElement.value,
-      amount: this.quantityInputRef.nativeElement.value
+      name: value.name,
+      amount: value.amount
     });
   }
 
