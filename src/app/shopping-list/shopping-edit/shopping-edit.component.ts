@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ShoppingListService } from '../shopping-list.service';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -8,10 +10,17 @@ import { NgForm } from '@angular/forms';
 })
 export class ShoppingEditComponent implements OnInit {
   @Output() addIngredients = new EventEmitter<{name: string, amount: number}>();
+  subscription: Subscription;
+  editMode = false;
+  editedItemIndex: number;
 
-  constructor() { }
+  constructor(private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
+    this.subscription = this.shoppingListService.startedEditing.subscribe((index: number) => {
+      this.editMode = true;
+      this.editedItemIndex = index;
+    });
   }
 
   onAddIngredients(form: NgForm) {

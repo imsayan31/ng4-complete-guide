@@ -20,6 +20,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     });
   }
 
+  onEditItem(index: number) {
+    this.shoppingListService.startedEditing.next(index);
+  }
+
   onAddInputdata(addedData) {
     this.shoppingListService.addInputData(addedData);
   }
