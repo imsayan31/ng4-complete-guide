@@ -41,6 +41,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         amount: value.amount
       });
     }
+    this.editMode = false;
+    form.reset();
   }
 
   ngOnDestroy() {
