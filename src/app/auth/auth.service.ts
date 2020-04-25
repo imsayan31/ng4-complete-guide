@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError, Subject } from 'rxjs';
+import { User } from './user.model';
 
 export interface AuthServiceResponse {
     status: number;
@@ -13,6 +14,7 @@ export interface AuthServiceResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
+    user = new Subject<User>();
     constructor(private http: HttpClient) {
 
     }
@@ -22,7 +24,11 @@ export class AuthService {
             password: password,
             role: 'job_seeker'
         })
-        .pipe(catchError(this.handleError));
+        .pipe(catchError(this.handleError), tap(resp => {
+            const expirationTime = new Date(new Date().getTime() + 7200 * 1000);
+            const userData = new User(resp.status, resp.id, resp.msg, expirationTime);
+            this.user.next(userData);
+        }));
     }
 
     logIn(email: string, password: string) {
