@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+
+import { AuthService, AuthServiceResponse } from './auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -23,30 +25,36 @@ export class AuthComponent implements OnInit {
     if (!form.valid) {
       return;
     }
+    const email = form.value.email;
+    const password = form.value.password;
+
+    let authObs: Observable<AuthServiceResponse>;
+
     this.isLoading = true;
     if (this.isLoginMode) {
-
+      authObs = this.authService.logIn(email, password);
     } else {
-      const email = form.value.email;
-      const password = form.value.password;
-      this.authService.signUp(email, password).subscribe(resp => {
-        if (resp.status === 200) {
-          this.errorMsg = false;
-          this.showMsg = resp.msg;
-          /* form.reset(); */
-        } else {
-          this.errorMsg = true;
-          this.showMsg = resp.msg;
-        }
-
-        this.isLoading = false;
-      }, errorMessage => {
-        console.log(errorMessage);
-        this.errorMsg = true;
-        this.isLoading = false;
-        this.showMsg = errorMessage;
-      });
+      authObs = this.authService.signUp(email, password);
     }
+
+    authObs.subscribe(resp => {
+      if (resp.status === 200) {
+        this.errorMsg = false;
+        this.showMsg = resp.msg;
+        /* form.reset(); */
+      } else {
+        this.errorMsg = true;
+        this.showMsg = resp.msg;
+      }
+
+      this.isLoading = false;
+    }, errorMessage => {
+      console.log(errorMessage);
+      this.errorMsg = true;
+      this.isLoading = false;
+      this.showMsg = errorMessage;
+    });
+
   }
 
   ngOnInit() {
